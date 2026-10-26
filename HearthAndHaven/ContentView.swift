@@ -248,28 +248,31 @@ struct ReliefRoomsView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.hearthText)
                 
-                HStack {
-                    TextField("Type what's scaring you...", text: $worryText)
-                        .textFieldStyle(.plain)
-                        .padding(10)
-                        .background(Color.black.opacity(0.3))
+                HStack if #available(iOS 16.0, *) {
+                    {
+                        TextField("Type what's scaring you...", text: $worryText)
+                            .padding(10)
+                            .background(Color.black.opacity(0.3))
+                            .cornerRadius(10)
+                            .font(.subheadline)
+                        
+                        Button("Lock Away") {
+                            guard !worryText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+                            Haptics.warmSuccess()
+                            lockedWorriesCount += 1
+                            worryText = ""
+                            worryLockedMessage = true
+                        }
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .background(Color.hearthGold.opacity(0.3))
+                        .foregroundColor(.hearthGold)
                         .cornerRadius(10)
-                        .font(.subheadline)
-                    
-                    Button("Lock Away") {
-                        guard !worryText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-                        Haptics.warmSuccess()
-                        lockedWorriesCount += 1
-                        worryText = ""
-                        worryLockedMessage = true
                     }
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
-                    .background(Color.hearthGold.opacity(0.3))
-                    .foregroundColor(.hearthGold)
-                    .cornerRadius(10)
+                } else {
+                    // Fallback on earlier versions
                 }
                 
                 if worryLockedMessage {
@@ -358,7 +361,6 @@ struct ReliefRoomsView: View {
                 .foregroundColor(.hearthSubtext)
             
             TextField("What is the noisy loop saying?", text: $ocdThought)
-                .textFieldStyle(.plain)
                 .padding(10)
                 .background(Color.black.opacity(0.3))
                 .cornerRadius(10)
@@ -587,7 +589,6 @@ struct LanternWallView: View {
                 
                 HStack {
                     TextField("Leave a warm note...", text: $newLanternText)
-                        .textFieldStyle(.plain)
                         .padding(10)
                         .background(Color.black.opacity(0.3))
                         .cornerRadius(10)
