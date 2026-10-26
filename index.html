@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Hearth & Haven" />
+  <title>Hearth & Haven — Sanctuary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #13161c;
+      color: #e6e1d6;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    .serif { font-family: 'Lora', Georgia, serif; }
+    body.low-sensory { background-color: #181818 !important; color: #cccccc !important; }
+    body.low-sensory * { animation: none !important; transition: none !important; box-shadow: none !important; }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.55; }
+      35% { transform: scale(1.38); opacity: 0.95; }
+      65% { transform: scale(1.38); opacity: 0.85; }
+    }
+    .breathe-circle { animation: breathe 14s infinite ease-in-out; }
+  </style>
+</head>
+<body class="min-h-screen pb-24 selection:bg-amber-900 selection:text-amber-100">
+  <header class="sticky top-0 z-30 backdrop-blur-md bg-[#13161c]/85 border-b border-stone-800 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <span class="text-amber-400 text-xl">🕯️</span>
+      <div>
+        <h1 class="serif text-lg font-medium tracking-wide text-amber-100">Hearth &amp; Haven</h1>
+        <p class="text-[11px] text-stone-400">You matter. Nothing can take that away.</p>
+      </div>
+    </div>
+    <button id="sensoryBtn" onclick="toggleSensory()" class="text-xs px-3 py-1.5 rounded-full border border-stone-700 bg-stone-800/70 text-stone-300">
+      🌙 Low-Sensory: Off
+    </button>
+  </header>
+
+  <main class="max-w-xl mx-auto px-4 pt-5 space-y-6">
+    <section class="rounded-2xl bg-gradient-to-br from-amber-950/40 via-stone-900 to-stone-900 border border-amber-800/30 p-5">
+      <p class="serif italic text-base leading-relaxed text-amber-100/95">
+        "You do not have to earn your rest today. You do not have to be fixed to be worthy of warmth, safety, and kindness."
+      </p>
+      <div class="mt-3 flex items-center justify-between text-xs text-stone-400">
+        <span>Safe Harbor • Zero Judgment</span>
+        <button onclick="newAffirmation()" class="text-amber-300 underline underline-offset-4">Another truth →</button>
+      </div>
+      <p id="extraAffirmation" class="mt-2 text-xs text-amber-200/90 hidden"></p>
+    </section>
+
+    <nav class="grid grid-cols-4 gap-2 text-xs font-medium">
+      <button onclick="switchTab('rooms')" id="tab-rooms" class="py-2.5 px-2 rounded-xl bg-amber-900/40 border border-amber-600/50 text-amber-100">🏛️ Rooms</button>
+      <button onclick="switchTab('care')" id="tab-care" class="py-2.5 px-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400">🧺 Care Pack</button>
+      <button onclick="switchTab('letters')" id="tab-letters" class="py-2.5 px-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400">✉️ Letters</button>
+      <button onclick="switchTab('lanterns')" id="tab-lanterns" class="py-2.5 px-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400">🏮 Lanterns</button>
+    </nav>
+
+    <div id="view-rooms" class="space-y-4">
+      <div class="flex flex-wrap gap-2">
+        <button onclick="selectRoom('gad')" id="room-btn-gad" class="px-3 py-1.5 rounded-full text-xs bg-amber-800/40 border border-amber-500/50 text-amber-100">GAD &amp; Anxiety</button>
+        <button onclick="selectRoom('dep')" id="room-btn-dep" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">Depression</button>
+        <button onclick="selectRoom('ocd')" id="room-btn-ocd" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">OCD Loops</button>
+        <button onclick="selectRoom('asd')" id="room-btn-asd" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">Autism &amp; Burnout</button>
+        <button onclick="selectRoom('bpd')" id="room-btn-bpd" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">BPD Tsunami</button>
+      </div>
+
+      <div id="room-gad" class="rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-5">
+        <h2 class="serif text-lg text-amber-200">The Worry Containment &amp; Vagus Reset</h2>
+        <div class="flex flex-col items-center justify-center py-6 bg-stone-950/60 rounded-xl border border-stone-800/80">
+          <div class="w-24 h-24 rounded-full bg-amber-500/20 border border-amber-400/50 flex items-center justify-center breathe-circle">
+            <span class="text-xs text-amber-200 text-center px-2">4s In<br/>4s Hold<br/>6s Out</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <input id="worryInput" type="text" placeholder="Lock a worry inside the iron vault..." class="flex-1 bg-stone-950 border border-stone-700 rounded-xl px-3 py-2 text-sm text-stone-200" />
+          <button onclick="lockWorry()" class="px-4 py-2 rounded-xl bg-amber-700/60 text-amber-100 text-xs font-medium">Lock Away</button>
+        </div>
+        <p id="worryStatus" class="text-xs text-emerald-300/90 hidden"></p>
+      </div>
+
+      <div id="room-dep" class="hidden rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-3">
+        <h2 class="serif text-lg text-amber-200">Zero-Guilt Nourishment Menu</h2>
+        <button onclick="celebrateStep('You stayed alive for another hour. That is heroic.')" class="w-full text-left p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-sm">🛌 0% Battery: Unclench your jaw &amp; blink</button>
+        <button onclick="celebrateStep('Water is life. One sip is kindness to your cells.')" class="w-full text-left p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-sm">💧 2% Battery: Take one sip of water</button>
+        <button onclick="celebrateStep('Warmth gives your nervous system physical safety.')" class="w-full text-left p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-sm">🧣 5% Battery: Pull a blanket over your shoulders</button>
+        <div id="depFeedback" class="hidden p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-700/40 text-xs text-emerald-200"></div>
+      </div>
+
+      <div id="room-ocd" class="hidden rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-3">
+        <h2 class="serif text-lg text-amber-200">Intrusive Loop Separator</h2>
+        <input id="ocdInput" type="text" placeholder="What is the noisy loop saying?" class="w-full bg-stone-950 border border-stone-700 rounded-xl px-3 py-2 text-sm text-stone-200" />
+        <button onclick="separateOcd()" class="w-full py-2 rounded-xl bg-amber-800/50 border border-amber-600/40 text-xs text-amber-100">Separate Static from Self</button>
+        <div
+git clone https://github.com/paraisthisis/haven.git ~/Desktop/haven-repo && cd ~/Desktop/haven-repo
+
+# 1. Create the Web / PWA version (index.html)
+cat << 'EOF' > index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Hearth & Haven" />
+  <title>Hearth & Haven — Sanctuary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #13161c;
+      color: #e6e1d6;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    .serif { font-family: 'Lora', Georgia, serif; }
+    body.low-sensory { background-color: #181818 !important; color: #cccccc !important; }
+    body.low-sensory * { animation: none !important; transition: none !important; box-shadow: none !important; }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.55; }
+      35% { transform: scale(1.38); opacity: 0.95; }
+      65% { transform: scale(1.38); opacity: 0.85; }
+    }
+    .breathe-circle { animation: breathe 14s infinite ease-in-out; }
+  </style>
+</head>
+<body class="min-h-screen pb-24 selection:bg-amber-900 selection:text-amber-100">
+  <header class="sticky top-0 z-30 backdrop-blur-md bg-[#13161c]/85 border-b border-stone-800 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <span class="text-amber-400 text-xl">🕯️</span>
+      <div>
+        <h1 class="serif text-lg font-medium tracking-wide text-amber-100">Hearth &amp; Haven</h1>
+        <p class="text-[11px] text-stone-400">You matter. Nothing can take that away.</p>
+      </div>
+    </div>
+    <button id="sensoryBtn" onclick="toggleSensory()" class="text-xs px-3 py-1.5 rounded-full border border-stone-700 bg-stone-800/70 text-stone-300">
+      🌙 Low-Sensory: Off
+    </button>
+  </header>
+
+  <main class="max-w-xl mx-auto px-4 pt-5 space-y-6">
+    <section class="rounded-2xl bg-gradient-to-br from-amber-950/40 via-stone-900 to-stone-900 border border-amber-800/30 p-5">
+      <p class="serif italic text-base leading-relaxed text-amber-100/95">
+        "You do not have to earn your rest today. You do not have to be fixed to be worthy of warmth, safety, and kindness."
+      </p>
+      <div class="mt-3 flex items-center justify-between text-xs text-stone-400">
+        <span>Safe Harbor • Zero Judgment</span>
+        <button onclick="newAffirmation()" class="text-amber-300 underline underline-offset-4">Another truth →</button>
+      </div>
+      <p id="extraAffirmation" class="mt-2 text-xs text-amber-200/90 hidden"></p>
+    </section>
+
+    <nav class="grid grid-cols-4 gap-2 text-xs font-medium">
+      <button onclick="switchTab('rooms')" id="tab-rooms" class="py-2.5 px-2 rounded-xl bg-amber-900/40 border border-amber-600/50 text-amber-100">🏛️ Rooms</button>
+      <button onclick="switchTab('care')" id="tab-care" class="py-2.5 px-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400">🧺 Care Pack</button>
+      <button onclick="switchTab('letters')" id="tab-letters" class="py-2.5 px-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400">✉️ Letters</button>
+      <button onclick="switchTab('lanterns')" id="tab-lanterns" class="py-2.5 px-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400">🏮 Lanterns</button>
+    </nav>
+
+    <div id="view-rooms" class="space-y-4">
+      <div class="flex flex-wrap gap-2">
+        <button onclick="selectRoom('gad')" id="room-btn-gad" class="px-3 py-1.5 rounded-full text-xs bg-amber-800/40 border border-amber-500/50 text-amber-100">GAD &amp; Anxiety</button>
+        <button onclick="selectRoom('dep')" id="room-btn-dep" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">Depression</button>
+        <button onclick="selectRoom('ocd')" id="room-btn-ocd" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">OCD Loops</button>
+        <button onclick="selectRoom('asd')" id="room-btn-asd" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">Autism &amp; Burnout</button>
+        <button onclick="selectRoom('bpd')" id="room-btn-bpd" class="px-3 py-1.5 rounded-full text-xs bg-stone-900 border border-stone-700 text-stone-300">BPD Tsunami</button>
+      </div>
+
+      <div id="room-gad" class="rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-5">
+        <h2 class="serif text-lg text-amber-200">The Worry Containment &amp; Vagus Reset</h2>
+        <div class="flex flex-col items-center justify-center py-6 bg-stone-950/60 rounded-xl border border-stone-800/80">
+          <div class="w-24 h-24 rounded-full bg-amber-500/20 border border-amber-400/50 flex items-center justify-center breathe-circle">
+            <span class="text-xs text-amber-200 text-center px-2">4s In<br/>4s Hold<br/>6s Out</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <input id="worryInput" type="text" placeholder="Lock a worry inside the iron vault..." class="flex-1 bg-stone-950 border border-stone-700 rounded-xl px-3 py-2 text-sm text-stone-200" />
+          <button onclick="lockWorry()" class="px-4 py-2 rounded-xl bg-amber-700/60 text-amber-100 text-xs font-medium">Lock Away</button>
+        </div>
+        <p id="worryStatus" class="text-xs text-emerald-300/90 hidden"></p>
+      </div>
+
+      <div id="room-dep" class="hidden rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-3">
+        <h2 class="serif text-lg text-amber-200">Zero-Guilt Nourishment Menu</h2>
+        <button onclick="celebrateStep('You stayed alive for another hour. That is heroic.')" class="w-full text-left p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-sm">🛌 0% Battery: Unclench your jaw &amp; blink</button>
+        <button onclick="celebrateStep('Water is life. One sip is kindness to your cells.')" class="w-full text-left p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-sm">💧 2% Battery: Take one sip of water</button>
+        <button onclick="celebrateStep('Warmth gives your nervous system physical safety.')" class="w-full text-left p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-sm">🧣 5% Battery: Pull a blanket over your shoulders</button>
+        <div id="depFeedback" class="hidden p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-700/40 text-xs text-emerald-200"></div>
+      </div>
+
+      <div id="room-ocd" class="hidden rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-3">
+        <h2 class="serif text-lg text-amber-200">Intrusive Loop Separator</h2>
+        <input id="ocdInput" type="text" placeholder="What is the noisy loop saying?" class="w-full bg-stone-950 border border-stone-700 rounded-xl px-3 py-2 text-sm text-stone-200" />
+        <button onclick="separateOcd()" class="w-full py-2 rounded-xl bg-amber-800/50 border border-amber-600/40 text-xs text-amber-100">Separate Static from Self</button>
+        <div id="ocdOutput" class="hidden text-xs text-amber-200/90 pt-2"></div>
+      </div>
+
+      <div id="room-asd" class="hidden rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-3">
+        <h2 class="serif text-lg text-amber-200">The Unmasking Sanctuary</h2>
+        <p class="text-xs text-stone-300">✓ Full permission to stim, rock, or sit in silence. Zero social decoding required.</p>
+        <textarea id="asdNotes" rows="3" oninput="saveLocalNotes()" placeholder="Special interest / safe brain dump..." class="w-full bg-stone-950 border border-stone-700 rounded-xl p-3 text-xs text-stone-200"></textarea>
+      </div>
+
+      <div id="room-bpd" class="hidden rounded-2xl bg-stone-900/90 border border-stone-800 p-5 space-y-3">
+        <h2 class="serif text-lg text-amber-200">The Emotional Tsunami Harbor</h2>
+        <p class="text-xs text-stone-300">• <strong>Distance is not abandonment:</strong> People still care even when quiet.<br/>• <strong>Cold Reset (TIPP):</strong> Hold an ice cube or splash cold water on your cheeks for 15 seconds to drop your heart rate immediately.</p>
+      </div>
+    </div>
+
+    <div id="view-care" class="hidden space-y-4">
+      <div class="rounded-2xl bg-stone-900 border border-stone-800 p-5 space-y-2">
+        <h3 class="serif text-base text-amber-100">"Wild Geese" — Mary Oliver</h3>
+        <p class="serif italic text-sm text-stone-300">"You do not have to be good. You only have to let the soft animal of your body love what it loves."</p>
+      </div>
+      <div class="rounded-2xl bg-stone-900 border border-stone-800 p-5 space-y-2">
+        <h3 class="serif text-base text-amber-100">Comfort Movies &amp; Books</h3>
+        <p class="text-xs text-stone-300">• My Neighbor Totoro &amp; Kiki's Delivery Service<br/>• Paddington 2<br/>• A Psalm for the Wild-Built (Becky Chambers)<br/>• The Boy, the Mole, the Fox and the Horse</p>
+      </div>
+    </div>
+
+    <div id="view-letters" class="hidden space-y-4">
+      <div class="rounded-2xl bg-stone-900 border border-stone-800 p-5 space-y-2">
+        <h3 class="serif text-base text-amber-200">For when you feel like a burden</h3>
+        <p class="text-xs text-stone-300 leading-relaxed">Needing gentleness, reassurance, or help does not make you a weight on the world. Humans were never meant to survive alone.</p>
+      </div>
+    </div>
+
+    <div id="view-lanterns" class="hidden space-y-4">
+      <div class="rounded-2xl bg-stone-900 border border-stone-800 p-5 space-y-4">
+        <div class="flex gap-2">
+          <input id="lanternInput" type="text" placeholder="Light a lantern with a kind note..." class="flex-1 bg-stone-950 border border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-200" />
+          <button onclick="addLantern()" class="px-4 py-2 rounded-xl bg-amber-700/70 text-amber-100 text-xs">🕯️ Light</button>
+        </div>
+        <div id="lanternList" class="space-y-2.5 pt-2"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const truths = [
+      "Your worth is inherent. It does not go up when you are productive or down when you are struggling.",
+      "Feelings are weather, not permanent architecture. Even the fiercest storm runs out of rain.",
+      "You have survived 100% of your hardest, darkest days so far."
+    ];
+    function newAffirmation() {
+      const el = document.getElementById('extraAffirmation');
+      el.textContent = '✨ ' + truths[Math.floor(Math.random() * truths.length)];
+      el.classList.remove('hidden');
+    }
+    function toggleSensory() {
+      document.body.classList.toggle('low-sensory');
+      document.getElementById('sensoryBtn').textContent = document.body.classList.contains('low-sensory') ? '🌙 Low-Sensory: On' : '🌙 Low-Sensory: Off';
+    }
+    function switchTab(tab) {
+      ['rooms', 'care', 'letters', 'lanterns'].forEach(t => {
+        document.getElementById('view-' + t).classList.toggle('hidden', t !== tab);
+      });
+    }
+    function selectRoom(room) {
+      ['gad', 'dep', 'ocd', 'asd', 'bpd'].forEach(r => {
+        document.getElementById('room-' + r).classList.toggle('hidden', r !== room);
+      });
+    }
+    function lockWorry() {
+      const input = document.getElementById('worryInput');
+      if (!input.value.trim()) return;
+      input.value = '';
+      const status = document.getElementById('worryStatus');
+      status.textContent = '🔒 Locked safely inside the iron vault.';
+      status.classList.remove('hidden');
+    }
+    function celebrateStep(msg) {
+      const box = document.getElementById('depFeedback');
+      box.textContent = '💛 ' + msg;
+      box.classList.remove('hidden');
+    }
+    function separateOcd() {
+      const val = document.getElementById('ocdInput').value.trim();
+      if (!val) return;
+      const out = document.getElementById('ocdOutput');
+      out.textContent = 'Cognitive Defusion: You are noticing a random electrical signal saying "' + val + '". It is static, not who you are.';
+      out.classList.remove('hidden');
+    }
+    function saveLocalNotes() {
+      localStorage.setItem('hearth_asd_notes', document.getElementById('asdNotes').value);
+    }
+    const defaultLanterns = ["Please stay. Tomorrow has moments you haven't met yet.", "Sending quiet warmth to whoever reads this."];
+    function renderLanterns() {
+      const saved = JSON.parse(localStorage.getItem('hearth_lanterns') || 'null') || defaultLanterns;
+      document.getElementById('lanternList').innerHTML = saved.map(l => `<div class="p-3 rounded-xl bg-stone-950 border border-amber-900/40 text-xs text-amber-100">🏮 ${l.replace(/</g, '&lt;')}</div>`).join('');
+    }
+    function addLantern() {
+      const input = document.getElementById('lanternInput');
+      if (!input.value.trim()) return;
+      const saved = JSON.parse(localStorage.getItem('hearth_lanterns') || 'null') || defaultLanterns;
+      saved.unshift(input.value.trim());
+      localStorage.setItem('hearth_lanterns', JSON.stringify(saved.slice(0, 20)));
+      input.value = '';
+      renderLanterns();
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('asdNotes').value = localStorage.getItem('hearth_asd_notes') || '';
+      renderLanterns();
+    });
+  </script>
+</body>
+</html>
