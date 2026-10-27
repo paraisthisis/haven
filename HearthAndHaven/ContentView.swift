@@ -248,31 +248,27 @@ struct ReliefRoomsView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.hearthText)
                 
-                HStack if #available(iOS 16.0, *) {
-                    {
-                        TextField("Type what's scaring you...", text: $worryText)
-                            .padding(10)
-                            .background(Color.black.opacity(0.3))
-                            .cornerRadius(10)
-                            .font(.subheadline)
-                        
-                        Button("Lock Away") {
-                            guard !worryText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-                            Haptics.warmSuccess()
-                            lockedWorriesCount += 1
-                            worryText = ""
-                            worryLockedMessage = true
-                        }
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                        .background(Color.hearthGold.opacity(0.3))
-                        .foregroundColor(.hearthGold)
+                HStack {
+                    TextField("Type what's scaring you...", text: $worryText)
+                        .padding(10)
+                        .background(Color.black.opacity(0.3))
                         .cornerRadius(10)
+                        .font(.subheadline)
+                    
+                    Button("Lock Away") {
+                        guard !worryText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+                        Haptics.warmSuccess()
+                        lockedWorriesCount += 1
+                        worryText = ""
+                        worryLockedMessage = true
                     }
-                } else {
-                    // Fallback on earlier versions
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .background(Color.hearthGold.opacity(0.3))
+                    .foregroundColor(.hearthGold)
+                    .cornerRadius(10)
                 }
                 
                 if worryLockedMessage {
